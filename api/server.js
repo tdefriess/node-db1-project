@@ -17,4 +17,20 @@ server.get('/', (req, res) => {
         })
 })
 
+server.get('/:id', (req, res) => {
+    db("accounts")
+        .where({ id: req.params.id })
+        .first()
+        .then(account => {
+            if (account) {
+                res.status(200).json({ data: account });
+            } else {
+                res.status(404).json({ message: "That account does not exist"});
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: "Database error"})
+        })
+})
+
 module.exports = server;
