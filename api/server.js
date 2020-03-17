@@ -33,4 +33,15 @@ server.get('/:id', (req, res) => {
         })
 })
 
+server.post('/', (req, res) => {
+    db("accounts")
+        .insert(req.body, "id")
+        .then(ids => {
+            res.status(201).json({results: ids});
+        })
+        .catch(err => {
+            res.status(500).json({message: "database error"})
+        })
+})
+
 module.exports = server;
